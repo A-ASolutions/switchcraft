@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>SwitchCraft — Meaningful Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   THEMES
+═══════════════════════════════════════════════ */
+:root,[data-theme="paper"]{
+  --bg:      #f0ebe0;
+  --surf:    #faf7f0;
+  --surf2:   #f3ede2;
+  --tb:      rgba(250,246,238,0.97);
+  --line:    rgba(0,0,0,0.09);
+  --fg:      #1a1510;
+  --fg2:     #4a3c2e;
+  --muted:   #9a8878;
+  --accent:  #4a6fa5;
+  --accent2: #2e7d6e;
+  --warm:    #b85c00;
+  --shadow:  0 4px 24px rgba(0,0,0,0.09);
+  --shadow2: 0 12px 48px rgba(0,0,0,0.13);
+  --ta-bg:   rgba(0,0,0,0.025);
+  --ta-brd:  rgba(0,0,0,0.09);
+  --dot-col: rgba(0,0,0,0.055);
+  --sch: light;
+}
+[data-theme="sage"]{
+  --bg:      #d8e4d4;
+  --surf:    #eaf2e6;
+  --surf2:   #dcecd6;
+  --tb:      rgba(220,232,216,0.97);
+  --line:    rgba(30,70,20,0.1);
+  --fg:      #161e14;
+  --fg2:     #2c3c28;
+  --muted:   #5a7050;
+  --accent:  #2d6a4f;
+  --accent2: #1e6091;
+  --warm:    #a04b1a;
+  --shadow:  0 4px 24px rgba(20,60,10,0.1);
+  --shadow2: 0 12px 48px rgba(20,60,10,0.16);
+  --ta-bg:   rgba(30,70,20,0.03);
+  --ta-brd:  rgba(30,70,20,0.1);
+  --dot-col: rgba(30,70,20,0.06);
+  --sch: light;
+}
+[data-theme="midnight"]{
+  --bg:      #060812;
+  --surf:    rgba(12,14,28,0.99);
+  --surf2:   rgba(16,18,36,0.99);
+  --tb:      rgba(4,6,16,0.97);
+  --line:    rgba(120,130,220,0.1);
+  --fg:      #dde4ff;
+  --fg2:     #b8c0e8;
+  --muted:   #4e5888;
+  --accent:  #7090ff;
+  --accent2: #38d4f0;
+  --warm:    #f0c040;
+  --shadow:  0 4px 24px rgba(0,0,20,0.6);
+  --shadow2: 0 12px 50px rgba(0,0,20,0.8);
+  --ta-bg:   rgba(130,140,255,0.05);
+  --ta-brd:  rgba(130,140,255,0.1);
+  --dot-col: rgba(120,130,255,0.06);
+  --sch: dark;
+}
+[data-theme="ember"]{
+  --bg:      #160e06;
+  --surf:    rgba(24,16,6,0.99);
+  --surf2:   rgba(30,20,8,0.99);
+  --tb:      rgba(12,8,2,0.97);
+  --line:    rgba(240,170,60,0.1);
+  --fg:      #f0e4cc;
+  --fg2:     #ddd0b0;
+  --muted:   #8a6840;
+  --accent:  #e8a030;
+  --accent2: #40c8c0;
+  --warm:    #f07060;
+  --shadow:  0 4px 24px rgba(0,0,0,0.65);
+  --shadow2: 0 12px 50px rgba(0,0,0,0.8);
+  --ta-bg:   rgba(240,170,60,0.04);
+  --ta-brd:  rgba(240,170,60,0.09);
+  --dot-col: rgba(240,170,60,0.05);
+  --sch: dark;
+}
+
+/* ═══════════════════════════════════════════════
+   BASE
+═══════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;}
+html,body{
+  margin:0;padding:0;height:100%;overflow:hidden;
+  background:var(--bg);color:var(--fg);
+  font-family:'DM Sans',system-ui,sans-serif;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* ═══════════════════════════════════════════════
+   TOOLBAR
+═══════════════════════════════════════════════ */
+#tb{
+  position:fixed;top:0;left:0;right:0;height:50px;z-index:200;
+  background:var(--tb);border-bottom:1px solid var(--line);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  display:flex;align-items:center;gap:8px;padding:0 14px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+}
+.tb-logo{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:1.12rem;font-weight:500;font-style:italic;
+  color:var(--accent);letter-spacing:0.04em;
+}
+.tb-tag{font-size:0.63rem;color:var(--muted);letter-spacing:0.07em;text-transform:uppercase;}
+.tb-g{flex:1;}
+/* Step dots */
+.step-dots{display:flex;gap:6px;align-items:center;}
+.sdot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--line);border:1.5px solid var(--line);
+  transition:background 0.3s,transform 0.2s;cursor:default;
+}
+.sdot.done{background:var(--accent2);border-color:var(--accent2);}
+.sdot.cur{background:var(--accent);border-color:var(--accent);transform:scale(1.4);}
+
+.tbb{
+  background:var(--ta-bg);border:1px solid var(--line);
+  color:var(--muted);border-radius:7px;
+  font-family:'DM Sans',system-ui,sans-serif;
+  font-size:0.72rem;padding:4px 9px;cursor:pointer;
+  transition:color 0.18s,background 0.18s;white-space:nowrap;
+  display:flex;align-items:center;gap:4px;
+}
+.tbb:hover{color:var(--fg);}
+.td{width:17px;height:17px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform 0.15s,border-color 0.15s;flex-shrink:0;}
+.td:hover{transform:scale(1.2);}
+.td.on{border-color:var(--fg);transform:scale(1.26);}
+
+/* ═══════════════════════════════════════════════
+   STAGE CONTAINER — full viewport below toolbar
+═══════════════════════════════════════════════ */
+#stages{position:fixed;inset:50px 0 0 0;overflow:hidden;}
+
+.stage{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:max(20px,env(safe-area-inset-top)) 20px max(20px,env(safe-area-inset-bottom));
+  opacity:0;pointer-events:none;
+  transform:translateX(40px);
+  transition:opacity 0.42s ease,transform 0.42s ease;
+  overflow-y:auto;
+}
+.stage.active{opacity:1;pointer-events:auto;transform:none;}
+.stage.out{opacity:0;transform:translateX(-40px);}
+
+/* Content card within a stage */
+.scard{
+  background:var(--surf);border:1px solid var(--line);
+  border-radius:22px;padding:28px;
+  width:100%;max-width:520px;
+  box-shadow:var(--shadow2);
+}
+
+/* Stage headings */
+.s-badge{
+  font-size:0.65rem;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;
+  font-weight:500;margin-bottom:10px;opacity:0.8;
+}
+.s-h{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(1.7rem,4vw,2.4rem);font-weight:400;line-height:1.1;
+  margin:0 0 8px;color:var(--fg);
+}
+.s-h em{font-style:italic;color:var(--accent);}
+.s-sub{font-size:0.88rem;color:var(--fg2);line-height:1.58;margin-bottom:20px;font-weight:300;}
+.science-note{
+  font-size:0.7rem;color:var(--muted);font-style:italic;
+  border-left:2px solid var(--line);padding-left:10px;
+  margin-top:14px;line-height:1.5;font-weight:300;
+}
+
+/* ═══════════════════════════════════════════════
+   INPUTS
+═══════════════════════════════════════════════ */
+.field-lbl{font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;display:block;}
+.inp{
+  width:100%;background:var(--ta-bg);border:1px solid var(--ta-brd);
+  border-radius:10px;color:var(--fg);
+  font-family:'DM Sans',system-ui,sans-serif;font-size:0.92rem;
+  padding:10px 12px;outline:none;transition:border-color 0.2s;
+  color-scheme:var(--sch);
+}
+.inp:focus{border-color:var(--accent);}
+.inp::placeholder{color:var(--muted);opacity:0.55;}
+.ta{resize:none;line-height:1.55;font-weight:300;min-height:80px;}
+.field-gap{margin-bottom:16px;}
+
+/* Value chips */
+.val-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px;}
+.vc{
+  padding:6px 13px;border-radius:99px;font-size:0.78rem;cursor:pointer;
+  border:1.5px solid var(--ta-brd);color:var(--muted);
+  background:var(--ta-bg);transition:all 0.18s;
+}
+.vc:hover{color:var(--fg);}
+.vc.on{background:color-mix(in srgb,var(--accent) 14%,transparent);
+       border-color:color-mix(in srgb,var(--accent) 38%,transparent);color:var(--accent);}
+
+/* ═══════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════ */
+.btn{
+  background:var(--ta-bg);border:1.5px solid var(--ta-brd);
+  color:var(--fg2);border-radius:12px;
+  font-family:'DM Sans',system-ui,sans-serif;
+  font-size:0.9rem;font-weight:500;padding:12px 22px;
+  cursor:pointer;transition:all 0.18s;display:inline-flex;
+  align-items:center;gap:7px;
+}
+.btn:hover{border-color:var(--accent);color:var(--accent);}
+.btn:active{transform:scale(0.97);}
+.btn.go{
+  background:color-mix(in srgb,var(--accent) 14%,transparent);
+  border-color:color-mix(in srgb,var(--accent) 36%,transparent);
+  color:var(--accent);font-weight:500;
+}
+.btn.go:hover{background:color-mix(in srgb,var(--accent) 22%,transparent);}
+.btn.soft{
+  background:color-mix(in srgb,var(--accent2) 10%,transparent);
+  border-color:color-mix(in srgb,var(--accent2) 28%,transparent);
+  color:var(--accent2);
+}
+.btn.warm{
+  background:color-mix(in srgb,var(--warm) 10%,transparent);
+  border-color:color-mix(in srgb,var(--warm) 28%,transparent);
+  color:var(--warm);
+}
+.btn.full{width:100%;justify-content:center;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+.btn.sm{font-size:0.8rem;padding:8px 14px;}
+
+/* ═══════════════════════════════════════════════
+   STAGE 2 — REGULATE
+   Breath, Soft-eyes, Bilateral movement
+═══════════════════════════════════════════════ */
+/* Mini step indicators */
+.reg-steps{display:flex;gap:6px;margin-bottom:20px;}
+.rst{
+  flex:1;height:3px;border-radius:99px;
+  background:var(--line);transition:background 0.4s;
+}
+.rst.done{background:var(--accent2);}
+.rst.cur{background:var(--accent);}
+
+/* ── Breath circle ── */
+#breath-wrap{
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+}
+#breath-orb{
+  width:clamp(110px,30vw,160px);height:clamp(110px,30vw,160px);
+  border-radius:50%;
+  background:radial-gradient(circle,color-mix(in srgb,var(--accent) 30%,var(--surf)) 0%,var(--surf) 70%);
+  border:2px solid color-mix(in srgb,var(--accent) 25%,var(--line));
+  box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 20%,transparent);
+  transition:transform 0s linear,box-shadow 0.3s ease;
+  will-change:transform;
+}
+#breath-orb.inhale{
+  animation:orb-in var(--breathe-dur,4s) ease-in-out forwards;
+}
+#breath-orb.hold{
+  animation:orb-hold var(--breathe-dur,4s) ease-in-out forwards;
+}
+#breath-orb.exhale{
+  animation:orb-out var(--breathe-dur,6s) ease-in-out forwards;
+}
+@keyframes orb-in{
+  from{transform:scale(1);box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 20%,transparent);}
+  to  {transform:scale(1.42);box-shadow:0 0 40px 12px color-mix(in srgb,var(--accent) 18%,transparent);}
+}
+@keyframes orb-hold{
+  from,to{transform:scale(1.42);box-shadow:0 0 40px 12px color-mix(in srgb,var(--accent) 18%,transparent);}
+}
+@keyframes orb-out{
+  from{transform:scale(1.42);box-shadow:0 0 40px 12px color-mix(in srgb,var(--accent) 18%,transparent);}
+  to  {transform:scale(1);box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 20%,transparent);}
+}
+#breath-label{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:1.4rem;font-style:italic;color:var(--accent);
+  min-height:2rem;text-align:center;
+}
+#breath-cue{font-size:0.82rem;color:var(--muted);text-align:center;}
+
+/* ── Soft eyes ── */
+#soft-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;}
+#soft-field{
+  width:100%;max-width:380px;
+  height:clamp(100px,22vw,130px);
+  border-radius:16px;
+  background:radial-gradient(ellipse 55% 55% at 50% 50%,
+    color-mix(in srgb,var(--accent) 8%,var(--surf2)) 0%,
+    var(--surf2) 100%);
+  border:1px solid var(--line);
+  position:relative;overflow:hidden;
+}
+/* Soft vignette overlay */
+#soft-field::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 50% 50% at 50% 50%,
+    transparent 35%,
+    color-mix(in srgb,var(--bg) 55%,transparent) 100%);
+  pointer-events:none;
+}
+#soft-pulse{
+  position:absolute;top:50%;left:50%;
+  width:30px;height:30px;border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:color-mix(in srgb,var(--accent) 22%,transparent);
+  animation:sp 3.4s ease-in-out infinite;
+}
+@keyframes sp{
+  0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.5;}
+  50%{transform:translate(-50%,-50%) scale(4.5);opacity:0.1;}
+}
+#soft-cue{font-size:0.82rem;color:var(--muted);text-align:center;max-width:320px;}
+
+/* ── Eye movement track ── */
+#eye-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;}
+#eye-track{
+  width:100%;max-width:420px;
+  height:clamp(80px,18vw,110px);
+  border-radius:16px;
+  background:var(--surf2);border:1px solid var(--line);
+  position:relative;overflow:hidden;
+}
+#eye-dot{
+  position:absolute;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 12px color-mix(in srgb,var(--accent) 60%,transparent),
+             0 0 4px  color-mix(in srgb,var(--accent) 40%,transparent);
+  transform:translate(-50%,-50%);
+  top:50%;left:10%;
+  transition:left 0.05s linear;
+  will-change:left;
+}
+#eye-cue{font-size:0.82rem;color:var(--muted);text-align:center;}
+
+/* ── Regulate progress bar ── */
+.reg-prog{
+  height:3px;border-radius:99px;
+  background:var(--line);overflow:hidden;margin-top:8px;
+  width:100%;max-width:420px;
+}
+.reg-prog-fill{
+  height:100%;background:var(--accent);
+  border-radius:99px;width:0%;transition:width 1s linear;
+}
+
+/* ═══════════════════════════════════════════════
+   STAGE 3 — TINY START
+═══════════════════════════════════════════════ */
+.tiny-card{
+  background:var(--surf2);border:1px solid var(--line);
+  border-radius:14px;padding:16px 18px;margin:12px 0;
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:1.18rem;line-height:1.5;color:var(--fg);
+  border-left:4px solid var(--accent);
+  min-height:60px;display:flex;align-items:center;
+}
+.duration-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+  margin-top:14px;
+}
+.dur-btn{
+  background:var(--ta-bg);border:1.5px solid var(--ta-brd);
+  border-radius:12px;padding:12px 8px;cursor:pointer;
+  text-align:center;transition:all 0.18s;color:var(--fg2);
+}
+.dur-btn:hover,.dur-btn.sel{
+  background:color-mix(in srgb,var(--accent) 12%,transparent);
+  border-color:color-mix(in srgb,var(--accent) 35%,transparent);
+  color:var(--accent);
+}
+.dur-num{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:2rem;font-weight:400;line-height:1;display:block;
+}
+.dur-lbl{font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;}
+
+/* ═══════════════════════════════════════════════
+   STAGE 4 — FOCUS BLOCK
+═══════════════════════════════════════════════ */
+#focus-wrap{
+  display:flex;flex-direction:column;align-items:center;
+  gap:10px;width:100%;max-width:440px;
+}
+#focus-ring-svg{
+  width:clamp(200px,50vw,260px);
+  height:clamp(200px,50vw,260px);
+}
+.ring-bg{fill:none;stroke:var(--line);stroke-width:10;}
+.ring-fill{
+  fill:none;stroke:var(--accent);stroke-width:10;
+  stroke-linecap:round;
+  stroke-dasharray:691.15;stroke-dashoffset:0;
+  transform:rotate(-90deg);transform-origin:50% 50%;
+  transition:stroke-dashoffset 1s linear;
+}
+#focus-time{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(2.8rem,10vw,4.2rem);font-weight:300;
+  fill:var(--fg);text-anchor:middle;dominant-baseline:central;
+}
+#focus-task-disp{
+  font-size:0.82rem;color:var(--muted);text-align:center;
+  max-width:320px;font-style:italic;
+}
+#focus-cue{
+  font-size:0.72rem;color:var(--muted);opacity:0.6;text-align:center;
+  animation:cue-fade 8s ease-in-out infinite;
+}
+@keyframes cue-fade{0%,100%{opacity:0.4;}50%{opacity:0.75;}}
+.focus-controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+
+/* ═══════════════════════════════════════════════
+   STAGE 5 — COMPLETE
+═══════════════════════════════════════════════ */
+#complete-glow{
+  width:clamp(100px,25vw,140px);height:clamp(100px,25vw,140px);
+  border-radius:50%;margin:0 auto 18px;
+  background:radial-gradient(circle,
+    color-mix(in srgb,var(--accent2) 35%,var(--surf)) 0%,
+    color-mix(in srgb,var(--accent2) 5%,var(--surf)) 60%,
+    var(--surf) 100%);
+  border:2px solid color-mix(in srgb,var(--accent2) 28%,var(--line));
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.8rem;
+  animation:glow-pulse 2.5s ease-in-out infinite;
+}
+@keyframes glow-pulse{
+  0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent2) 20%,transparent);}
+  50%{box-shadow:0 0 32px 10px color-mix(in srgb,var(--accent2) 15%,transparent);}
+}
+
+/* Sliders */
+.sl-row{display:flex;flex-direction:column;gap:4px;margin-bottom:14px;}
+.sl-lbl{font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;display:flex;justify-content:space-between;}
+input[type="range"]{
+  width:100%;height:4px;-webkit-appearance:none;appearance:none;
+  background:var(--ta-brd);border-radius:99px;outline:none;cursor:pointer;
+}
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--fg);box-shadow:0 2px 6px rgba(0,0,0,0.3);
+}
+input[type="range"]::-moz-range-thumb{
+  width:18px;height:18px;border-radius:50%;border:none;
+  background:var(--fg);
+}
+.check-row{display:flex;align-items:center;gap:9px;margin-bottom:12px;cursor:pointer;}
+.check-row input{width:16px;height:16px;cursor:pointer;accent-color:var(--accent);}
+.check-row span{font-size:0.85rem;color:var(--fg2);}
+
+/* ═══════════════════════════════════════════════
+   STAGE 6 — HISTORY
+═══════════════════════════════════════════════ */
+.hist-list{display:flex;flex-direction:column;gap:9px;max-height:55vh;overflow-y:auto;padding-right:3px;}
+.hist-list::-webkit-scrollbar{width:3px;}
+.hist-list::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px;}
+.hitem{
+  background:var(--surf2);border:1px solid var(--line);
+  border-radius:12px;padding:11px 14px;
+}
+.hi-task{font-size:0.88rem;font-weight:500;color:var(--fg);margin-bottom:3px;}
+.hi-meta{font-size:0.71rem;color:var(--muted);}
+.hi-tag{
+  display:inline-block;font-size:0.65rem;padding:2px 8px;
+  border-radius:99px;border:1px solid var(--line);color:var(--muted);margin-left:6px;
+}
+.hi-tag.ok{border-color:color-mix(in srgb,var(--accent2) 35%,var(--line));color:var(--accent2);}
+.hi-tag.ab{border-color:color-mix(in srgb,var(--warm) 35%,var(--line));color:var(--warm);}
+
+.stat-row{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;
+}
+.stat-box{
+  background:var(--surf2);border:1px solid var(--line);border-radius:12px;
+  padding:11px;text-align:center;
+}
+.stat-val{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:1.7rem;font-weight:400;color:var(--accent);display:block;
+}
+.stat-key{font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-top:2px;}
+
+/* ═══════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════ */
+.tst{
+  position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+  background:var(--surf);border:1px solid var(--line);border-radius:9px;
+  padding:7px 14px;font-size:0.78rem;color:var(--fg);z-index:9999;
+  box-shadow:var(--shadow);animation:tsti 0.2s ease;
+}
+@keyframes tsti{from{opacity:0;transform:translateX(-50%) translateY(7px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
+
+/* Dot grid background on canvas */
+#stages::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(circle,var(--dot-col) 1px,transparent 1px);
+  background-size:26px 26px;z-index:-1;
+}
+
+.credit{
+  position:fixed;bottom:8px;right:12px;z-index:5;pointer-events:none;
+  font-size:0.6rem;color:var(--muted);opacity:0.32;
+}
+@media print{#tb,.credit{display:none!important;}#stages{inset:0!important;}}
+</style>
+</head>
+<body data-theme="paper">
+
+<!-- ════════════ TOOLBAR ══════════════════════ -->
+<div id="tb">
+  <div>
+    <div class="tb-logo">SwitchCraft</div>
+  </div>
+  <div style="width:6px;"></div>
+  <div class="step-dots" id="step-dots">
+    <div class="sdot cur"  data-s="1"></div>
+    <div class="sdot"      data-s="2"></div>
+    <div class="sdot"      data-s="3"></div>
+    <div class="sdot"      data-s="4"></div>
+    <div class="sdot"      data-s="5"></div>
+    <div class="sdot"      data-s="6"></div>
+  </div>
+  <div class="tb-g"></div>
+  <!-- Theme -->
+  <div style="display:flex;gap:4px;align-items:center;">
+    <div class="td on"  data-t="paper"    title="Paper"    style="background:linear-gradient(135deg,#f0ebe0,#ddd5c5)"></div>
+    <div class="td"     data-t="sage"     title="Sage"     style="background:linear-gradient(135deg,#d8e4d4,#b4c8b0)"></div>
+    <div class="td"     data-t="midnight" title="Midnight" style="background:linear-gradient(135deg,#080812,#161828)"></div>
+    <div class="td"     data-t="ember"    title="Ember"    style="background:linear-gradient(135deg,#260e04,#160a02)"></div>
+  </div>
+  <div style="width:4px;"></div>
+  <button class="tbb" id="btn-hist">History</button>
+  <button class="tbb" id="btn-new">New session</button>
+</div>
+
+<!-- ════════════ STAGES ══════════════════════ -->
+<div id="stages">
+
+  <!-- ── STAGE 1: SET INTENTION ── -->
+  <div class="stage active" data-stage="1">
+    <div class="scard">
+      <div class="s-badge">Step 1 of 5 · Intention</div>
+      <h1 class="s-h">What will you <em>turn toward</em> today?</h1>
+      <p class="s-sub">Name the task and the value it serves. Connecting a task to meaning reduces activation resistance.</p>
+
+      <div class="field-gap">
+        <label class="field-lbl" for="inp-task">The task</label>
+        <input id="inp-task" class="inp" type="text" placeholder="e.g. Draft the opening paragraph of the report"/>
+      </div>
+
+      <div class="field-gap">
+        <label class="field-lbl">Why it matters — pick a value</label>
+        <div class="val-chips" id="val-chips">
+          <div class="vc on" data-v="Meaningful work">Meaningful work</div>
+          <div class="vc" data-v="Family">Family</div>
+          <div class="vc" data-v="Health">Health</div>
+          <div class="vc" data-v="Learning">Learning</div>
+          <div class="vc" data-v="Creativity">Creativity</div>
+          <div class="vc" data-v="Faith">Faith</div>
+          <div class="vc" data-v="Freedom">Freedom</div>
+        </div>
+        <input id="inp-value-custom" class="inp" type="text" placeholder="or write your own…" style="margin-top:9px;"/>
+      </div>
+
+      <div class="science-note">Values anchoring (ACT) · Linking a task to personal meaning shifts it from threat-mode appraisal to approach-mode — reducing the amygdala's inhibitory signal on the prefrontal cortex.</div>
+
+      <div class="btn-row">
+        <button class="btn go full" id="btn-to-reg">
+          Begin regulation ritual →
+        </button>
+        <button class="btn full" id="btn-skip-reg" style="font-size:0.8rem;">
+          Skip regulation, go to tiny start
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STAGE 2: REGULATE ── -->
+  <div class="stage" data-stage="2">
+    <div class="scard" style="max-width:540px;">
+      <div class="s-badge">Step 2 of 5 · Nervous System Regulation</div>
+      <h2 class="s-h" style="font-size:clamp(1.4rem,3vw,1.9rem);" id="reg-title">Physiological Sigh</h2>
+
+      <!-- Sub-step progress -->
+      <div class="reg-steps">
+        <div class="rst cur" id="rst-1"></div>
+        <div class="rst"     id="rst-2"></div>
+        <div class="rst"     id="rst-3"></div>
+      </div>
+
+      <!-- ── Sub 1: Breath ── -->
+      <div id="sub-breath">
+        <p class="s-sub" style="margin-bottom:14px;">Two physiological sighs — the fastest known way to down-regulate the sympathetic nervous system. Double-inhale fills collapsed alveoli; long exhale activates the vagal brake.</p>
+        <div id="breath-wrap">
+          <div id="breath-orb"></div>
+          <div id="breath-label">Press start</div>
+          <div id="breath-cue" class="science-note" style="border:none;padding:0;">Developed by Huberman Lab, Stanford Neuroscience · 2023</div>
+        </div>
+        <div class="reg-prog"><div class="reg-prog-fill" id="breath-prog-fill"></div></div>
+        <div class="btn-row">
+          <button class="btn go" id="btn-start-breath">Start</button>
+          <button class="btn" id="btn-next-soft">Skip to next →</button>
+        </div>
+      </div>
+
+      <!-- ── Sub 2: Soft Eyes ── -->
+      <div id="sub-soft" style="display:none;">
+        <p class="s-sub" style="margin-bottom:14px;">Widen your gaze. Let your eyes soften and your peripheral vision expand. Unclench the jaw.</p>
+        <div id="soft-wrap">
+          <div id="soft-field"><div id="soft-pulse"></div></div>
+          <div id="soft-cue">Panoramic vision shifts the visual cortex from narrow threat-focus to wide-field mode, reducing amygdala activation. Let the whole room come into your awareness.</div>
+        </div>
+        <div class="reg-prog"><div class="reg-prog-fill" id="soft-prog-fill"></div></div>
+        <div class="btn-row">
+          <button class="btn go" id="btn-start-soft">Start (20s)</button>
+          <button class="btn" id="btn-next-eye">Skip to next →</button>
+        </div>
+      </div>
+
+      <!-- ── Sub 3: Bilateral Movement ── -->
+      <div id="sub-eye" style="display:none;">
+        <p class="s-sub" style="margin-bottom:14px;">Follow the dot with your eyes. Smooth bilateral movement activates the prefrontal cortex and down-regulates arousal. No effort — let the eyes move comfortably.</p>
+        <div id="eye-wrap">
+          <div id="eye-track"><div id="eye-dot"></div></div>
+          <div id="eye-cue">Smooth pursuit eye movement (SPEM) activates the cerebellum and reduces limbic arousal — the same mechanism underlying bilateral stimulation in EMDR.</div>
+        </div>
+        <div class="reg-prog"><div class="reg-prog-fill" id="eye-prog-fill"></div></div>
+        <div class="btn-row">
+          <button class="btn go" id="btn-start-eye">Start (20s)</button>
+          <button class="btn soft" id="btn-to-tiny">Continue to task →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── STAGE 3: TINY START ── -->
+  <div class="stage" data-stage="3">
+    <div class="scard">
+      <div class="s-badge">Step 3 of 5 · Tiny Start</div>
+      <h2 class="s-h">One <em>tiny</em> move</h2>
+      <p class="s-sub">Pick the smallest possible action to begin — under 2 minutes. Implementation intentions eliminate the activation gap by pre-deciding the first move.</p>
+
+      <div class="tiny-card" id="tiny-suggestion">
+        Open the file. Nothing else.
+      </div>
+
+      <div class="btn-row" style="margin-top:8px;">
+        <button class="btn sm" id="btn-another-tiny">↻ Another idea</button>
+        <button class="btn sm soft" id="btn-did-tiny">✓ Done this</button>
+      </div>
+
+      <div style="margin-top:20px;">
+        <label class="field-lbl">Choose your focus block length</label>
+        <div class="duration-grid" id="dur-grid">
+          <div class="dur-btn" data-m="5"><span class="dur-num">5</span><span class="dur-lbl">minutes</span></div>
+          <div class="dur-btn sel" data-m="10"><span class="dur-num">10</span><span class="dur-lbl">minutes</span></div>
+          <div class="dur-btn" data-m="15"><span class="dur-num">15</span><span class="dur-lbl">minutes</span></div>
+          <div class="dur-btn" data-m="20"><span class="dur-num">20</span><span class="dur-lbl">minutes</span></div>
+          <div class="dur-btn" data-m="25"><span class="dur-num">25</span><span class="dur-lbl">minutes</span></div>
+          <div class="dur-btn" data-m="45"><span class="dur-num">45</span><span class="dur-lbl">minutes</span></div>
+        </div>
+      </div>
+
+      <div class="science-note">Implementation intentions (Gollwitzer, 1999) · Pre-specifying the first action reduces executive function demand at task onset — particularly effective for ADHD-related activation difficulties.</div>
+
+      <div class="btn-row">
+        <button class="btn go full" id="btn-start-focus">Begin focus block →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STAGE 4: FOCUS ── -->
+  <div class="stage" data-stage="4">
+    <div id="focus-wrap">
+      <div id="focus-task-disp"></div>
+
+      <!-- SVG ring timer -->
+      <svg id="focus-ring-svg" viewBox="0 0 220 220">
+        <circle class="ring-bg"   cx="110" cy="110" r="100"/>
+        <circle class="ring-fill" id="ring-fill" cx="110" cy="110" r="100"/>
+        <text id="focus-time" x="110" y="110" class="focus-time">00:00</text>
+      </svg>
+
+      <div id="focus-cue">Jaw soft · shoulders down · breathe gently</div>
+      <div class="focus-controls">
+        <button class="btn soft" id="btn-finish-early">Finish early</button>
+        <button class="btn" id="btn-pause-focus">Pause</button>
+        <button class="btn warm" id="btn-abort-focus">Abort</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STAGE 5: COMPLETE ── -->
+  <div class="stage" data-stage="5">
+    <div class="scard">
+      <div class="s-badge" id="comp-badge">Step 5 · Complete</div>
+      <div id="complete-glow">✦</div>
+      <h2 class="s-h" style="text-align:center;" id="comp-title">Block complete.</h2>
+      <p class="s-sub" style="text-align:center;" id="comp-sub">Take a breath. You showed up.</p>
+
+      <div id="comp-stats" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:16px;"></div>
+
+      <div class="sl-row">
+        <label class="sl-lbl" for="sl-effort">Effort <span id="lbl-effort">3</span></label>
+        <input type="range" id="sl-effort" min="1" max="5" value="3"/>
+        <div style="display:flex;justify-content:space-between;font-size:0.65rem;color:var(--muted);">
+          <span>Barely there</span><span>Full tilt</span>
+        </div>
+      </div>
+
+      <div class="sl-row">
+        <label class="sl-lbl" for="sl-mood">Mood after <span id="lbl-mood">3</span></label>
+        <input type="range" id="sl-mood" min="1" max="5" value="3"/>
+        <div style="display:flex;justify-content:space-between;font-size:0.65rem;color:var(--muted);">
+          <span>Flat</span><span>Buoyant</span>
+        </div>
+      </div>
+
+      <label class="check-row">
+        <input type="checkbox" id="chk-stuck"/>
+        <span>I got stuck or overwhelmed during this block</span>
+      </label>
+
+      <div class="btn-row">
+        <button class="btn soft full" id="btn-save-session">Save &amp; reflect</button>
+        <button class="btn full" id="btn-another-block">Run another block</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STAGE 6: HISTORY ── -->
+  <div class="stage" data-stage="6">
+    <div class="scard" style="max-width:560px;">
+      <div class="s-badge">Session History</div>
+      <h2 class="s-h">Your <em>focus record</em></h2>
+
+      <div class="stat-row" id="stat-row">
+        <div class="stat-box"><span class="stat-val" id="st-sessions">0</span><span class="stat-key">Sessions</span></div>
+        <div class="stat-box"><span class="stat-val" id="st-focus">0m</span><span class="stat-key">Focus (7d)</span></div>
+        <div class="stat-box"><span class="stat-val" id="st-latency">—</span><span class="stat-key">Avg latency</span></div>
+      </div>
+
+      <div class="hist-list" id="hist-list"></div>
+
+      <div class="btn-row" style="margin-top:14px;">
+        <button class="btn go" id="btn-new2">New session</button>
+        <button class="btn warm sm" id="btn-export">Export JSON</button>
+        <button class="btn sm" id="btn-clear" style="margin-left:auto;">Clear all data</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /stages -->
+
+<div class="credit">SwitchCraft · Meaningful Path Therapy · Abdullah Al-Shoaibi</div>
+
+<!-- ════════════ SCRIPT ═══════════════════════ -->
+<script>
+(() => {
+'use strict';
+
+const SK = 'sc_v4';
+let sessions = [], theme = 'paper';
+
+// ── State ────────────────────────────────────────────────────────────────────
+let st = {
+  task: '', value: 'Meaningful work',
+  durMins: 10,
+  focusSecs: 0, focusDur: 600,
+  focusRunning: false, focusPaused: false, focusTimer: null,
+  session: {},
+  planStartTs: null, ignStartTs: null,
+  currentStage: 1,
+};
+
+// ── DOM ──────────────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+
+// ── Stage navigation ─────────────────────────────────────────────────────────
+function goStage(n) {
+  document.querySelectorAll('.stage').forEach(s => {
+    const sn = +s.dataset.stage;
+    s.classList.remove('active', 'out');
+    if (sn === n) setTimeout(() => s.classList.add('active'), 10);
+    else if (sn < n) s.classList.add('out');
+  });
+  document.querySelectorAll('.sdot').forEach(d => {
+    const dn = +d.dataset.s;
+    d.classList.toggle('cur',  dn === n);
+    d.classList.toggle('done', dn < n);
+  });
+  st.currentStage = n;
+}
+
+// ── Theme ────────────────────────────────────────────────────────────────────
+function applyTheme(t) {
+  theme = t;
+  document.body.setAttribute('data-theme', t);
+  document.querySelectorAll('.td').forEach(d => d.classList.toggle('on', d.dataset.t === t));
+  try { localStorage.setItem('sc_theme', t); } catch {}
+}
+document.querySelectorAll('.td').forEach(d => d.addEventListener('click', () => applyTheme(d.dataset.t)));
+
+// ── Value chips ──────────────────────────────────────────────────────────────
+document.querySelectorAll('.vc').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('.vc').forEach(x => x.classList.remove('on'));
+    c.classList.add('on');
+    st.value = c.dataset.v;
+    $('inp-value-custom').value = '';
+  });
+});
+$('inp-value-custom').addEventListener('input', e => {
+  if (e.target.value.trim()) {
+    document.querySelectorAll('.vc').forEach(x => x.classList.remove('on'));
+    st.value = e.target.value.trim();
+  }
+});
+
+// ── Stage 1 → 2 ─────────────────────────────────────────────────────────────
+$('btn-to-reg').addEventListener('click', () => {
+  st.task = $('inp-task').value.trim() || 'Today\'s task';
+  const cv = $('inp-value-custom').value.trim();
+  if (cv) st.value = cv;
+  st.planStartTs = performance.now();
+  resetReg();
+  goStage(2);
+});
+$('btn-skip-reg').addEventListener('click', () => {
+  st.task = $('inp-task').value.trim() || 'Today\'s task';
+  const cv = $('inp-value-custom').value.trim();
+  if (cv) st.value = cv;
+  st.planStartTs = performance.now();
+  goTinyStart();
+});
+
+// ═══════════════════════════════════════════════
+// STAGE 2 — REGULATE
+// ═══════════════════════════════════════════════
+let regSub = 1;
+function resetReg() {
+  regSub = 1; showRegSub(1);
+  $('breath-prog-fill').style.width = '0%';
+  $('soft-prog-fill').style.width = '0%';
+  $('eye-prog-fill').style.width = '0%';
+  $('breath-label').textContent = 'Press start';
+  stopAllReg();
+}
+
+function showRegSub(n) {
+  $('sub-breath').style.display = n === 1 ? '' : 'none';
+  $('sub-soft').style.display   = n === 2 ? '' : 'none';
+  $('sub-eye').style.display    = n === 3 ? '' : 'none';
+  ['rst-1','rst-2','rst-3'].forEach((id,i) => {
+    $( id).classList.remove('cur','done');
+    if (i + 1 === n)   $(id).classList.add('cur');
+    if (i + 1 < n)     $(id).classList.add('done');
+  });
+  const titles = ['Physiological Sigh','Soft Eyes — Panoramic Vision','Bilateral Eye Movement'];
+  $('reg-title').textContent = titles[n-1];
+}
+
+// ── Breath (physiological sigh) ──────────────────────────────────────────────
+let breathRAF = null, breathRunning = false;
+const breathSeq = [
+  { phase: 'inhale',    dur: 2000, label: 'Inhale…',       css: 'inhale' },
+  { phase: 'sniff',     dur: 700,  label: 'Top-up sniff',  css: 'inhale' },
+  { phase: 'exhale',    dur: 5500, label: 'Exhale slowly…',css: 'exhale' },
+  { phase: 'inhale2',   dur: 2000, label: 'Inhale…',       css: 'inhale' },
+  { phase: 'sniff2',    dur: 700,  label: 'Top-up sniff',  css: 'inhale' },
+  { phase: 'exhale2',   dur: 5500, label: 'Exhale slowly…',css: 'exhale' },
+];
+let breathSeqIdx = 0, breathPhaseStart = 0, breathTotalMs = 0, breathDone = false;
+
+function startBreath() {
+  breathRunning = true; breathDone = false;
+  breathSeqIdx = 0;
+  breathTotalMs = breathSeq.reduce((a,b) => a+b.dur, 0);
+  let elapsed = 0;
+  const orb = $('breath-orb');
+  orb.className = '';
+
+  const runPhase = () => {
+    if (!breathRunning || breathSeqIdx >= breathSeq.length) {
+      $('breath-label').textContent = 'Complete ✓';
+      orb.className = '';
+      breathDone = true;
+      $('breath-prog-fill').style.width = '100%';
+      ding();
+      return;
+    }
+    const phase = breathSeq[breathSeqIdx];
+    $('breath-label').textContent = phase.label;
+    orb.className = '';
+    orb.style.setProperty('--breathe-dur', (phase.dur/1000) + 's');
+    void orb.offsetWidth;
+    orb.classList.add(phase.css);
+    const start = performance.now();
+    const tick = (now) => {
+      if (!breathRunning) return;
+      const pElapsed = now - start;
+      const totalElapsed = elapsed + pElapsed;
+      $('breath-prog-fill').style.width = Math.min(100, (totalElapsed/breathTotalMs)*100) + '%';
+      if (pElapsed >= phase.dur) {
+        elapsed += phase.dur;
+        breathSeqIdx++;
+        runPhase();
+      } else {
+        breathRAF = requestAnimationFrame(tick);
+      }
+    };
+    breathRAF = requestAnimationFrame(tick);
+  };
+  runPhase();
+}
+
+$('btn-start-breath').addEventListener('click', () => { if (!breathRunning) startBreath(); });
+$('btn-next-soft').addEventListener('click', () => { stopAllReg(); regSub=2; showRegSub(2); st.ignStartTs = performance.now(); });
+
+// ── Soft eyes (20s) ──────────────────────────────────────────────────────────
+let softInt = null, softEl = 0, softTotal = 20;
+const softCues = [
+  { t:0,  msg: 'Let your gaze soften. Allow the edges of your vision to come into awareness.' },
+  { t:7,  msg: 'Unclench the jaw. Let the shoulders drop. No need to focus on anything.' },
+  { t:14, msg: 'Stay in this wide, open gaze. Notice how the room feels different.' },
+];
+
+function startSoft() {
+  clearInterval(softInt); softEl = 0;
+  $('soft-prog-fill').style.width = '0%';
+  softInt = setInterval(() => {
+    softEl++;
+    $('soft-prog-fill').style.width = Math.min(100, (softEl/softTotal)*100) + '%';
+    const cue = softCues.reduce((a,b) => b.t <= softEl ? b : a, softCues[0]);
+    $('soft-cue').textContent = cue.msg;
+    if (softEl >= softTotal) {
+      clearInterval(softInt); ding();
+      $('soft-cue').textContent = 'Soft eyes complete ✓';
+    }
+  }, 1000);
+}
+
+$('btn-start-soft').addEventListener('click', startSoft);
+$('btn-next-eye').addEventListener('click', () => { stopAllReg(); regSub=3; showRegSub(3); });
+
+// ── Bilateral eye movement (20s) ─────────────────────────────────────────────
+let eyeRAF = null, eyeRunning = false, eyeStart = 0, eyeTotal = 20000;
+
+function startEye() {
+  eyeRunning = true; eyeStart = performance.now();
+  const dot = $('eye-dot');
+  const track = $('eye-track');
+  $('eye-prog-fill').style.width = '0%';
+  const loop = (now) => {
+    if (!eyeRunning) return;
+    const el = now - eyeStart;
+    $('eye-prog-fill').style.width = Math.min(100, (el/eyeTotal)*100) + '%';
+    const trackW = track.clientWidth - 20;
+    const period = 2400;
+    const phase = (el % period) / period;
+    const x = 10 + Math.sin(phase * Math.PI * 2) * 0.5 * trackW + trackW/2;
+    dot.style.left = x + 'px';
+    if (el >= eyeTotal) {
+      eyeRunning = false; ding();
+      $('eye-cue').textContent = 'Eye movement complete ✓';
+      $('eye-prog-fill').style.width = '100%';
+    } else {
+      eyeRAF = requestAnimationFrame(loop);
+    }
+  };
+  eyeRAF = requestAnimationFrame(loop);
+}
+
+$('btn-start-eye').addEventListener('click', startEye);
+$('btn-to-tiny').addEventListener('click', () => { stopAllReg(); goTinyStart(); });
+
+function stopAllReg() {
+  breathRunning = false; cancelAnimationFrame(breathRAF);
+  clearInterval(softInt);
+  eyeRunning = false; cancelAnimationFrame(eyeRAF);
+}
+
+// ═══════════════════════════════════════════════
+// STAGE 3 — TINY START
+// ═══════════════════════════════════════════════
+const tinyPool = [
+  'Open the file. Just open it — nothing else.',
+  'Type a working title only. Save. That is it.',
+  'Write one bullet point. Just one.',
+  'Set a 3-minute timer and read the first paragraph.',
+  'Lay everything you need on the desk, then sit down.',
+  'Send a one-line message to make the task feel real.',
+  'Sketch a rough outline in 90 seconds.',
+  'Name one blocker. Name one effortless next move.',
+  'Write the date and task name at the top of a blank page.',
+  'Read the last thing you wrote — just orient yourself.',
+];
+
+function goTinyStart() {
+  goStage(3);
+  const idx = Math.floor(Math.random() * tinyPool.length);
+  $('tiny-suggestion').textContent = tinyPool[idx];
+  st.session.tinyStart = tinyPool[idx];
+  if (!st.ignStartTs) st.ignStartTs = performance.now();
+}
+
+$('btn-another-tiny').addEventListener('click', () => {
+  const idx = Math.floor(Math.random() * tinyPool.length);
+  $('tiny-suggestion').textContent = tinyPool[idx];
+  st.session.tinyStart = tinyPool[idx];
+});
+$('btn-did-tiny').addEventListener('click', () => { ding(); toast('✓ Tiny start done — pick your block length and begin.'); });
+
+// Duration grid
+document.querySelectorAll('.dur-btn').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.dur-btn').forEach(x => x.classList.remove('sel'));
+    b.classList.add('sel');
+    st.durMins = +b.dataset.m;
+  });
+});
+
+$('btn-start-focus').addEventListener('click', startFocusBlock);
+
+// ═══════════════════════════════════════════════
+// STAGE 4 — FOCUS
+// ═══════════════════════════════════════════════
+const CIRCUMFERENCE = 2 * Math.PI * 100; // r=100
+const ring = $('ring-fill');
+ring.style.strokeDasharray  = CIRCUMFERENCE;
+ring.style.strokeDashoffset = 0;
+
+const FOCUS_CUES = [
+  'Jaw soft · shoulders down · breathe',
+  'If you drift, gently return — that is the practice',
+  'One sentence, one step, one breath at a time',
+  'You are already doing it',
+  'Attention will wander. That is normal. Return.',
+  'The work is here, now',
+];
+let cueTick = 0;
+
+function startFocusBlock() {
+  st.session = { when: new Date().toISOString(), task: st.task, value: st.value,
+    tinyStart: st.session.tinyStart, aborted: false };
+  const ref = st.ignStartTs || st.planStartTs || performance.now();
+  st.session.activationLatencySec = Math.max(0, Math.round((performance.now()-ref)/1000));
+  st.focusDur = st.durMins * 60;
+  st.focusSecs = 0; st.focusRunning = true; st.focusPaused = false;
+  $('focus-task-disp').textContent = st.task;
+  $('focus-time').textContent = fmtTime(st.focusDur);
+  ring.style.strokeDashoffset = 0;
+  cueTick = 0; $('focus-cue').textContent = FOCUS_CUES[0];
+  goStage(4);
+  clearInterval(st.focusTimer);
+  st.focusTimer = setInterval(() => {
+    if (!st.focusRunning || st.focusPaused) return;
+    st.focusSecs++;
+    cueTick++;
+    if (cueTick % 30 === 0) {
+      $('focus-cue').textContent = FOCUS_CUES[Math.floor(Math.random() * FOCUS_CUES.length)];
+    }
+    const remain = Math.max(0, st.focusDur - st.focusSecs);
+    $('focus-time').textContent = fmtTime(remain);
+    const pct = st.focusSecs / st.focusDur;
+    ring.style.strokeDashoffset = CIRCUMFERENCE * (1 - pct);
+    if (remain <= 0) { clearInterval(st.focusTimer); completeFocus(false); }
+  }, 1000);
+}
+
+function completeFocus(aborted) {
+  clearInterval(st.focusTimer);
+  st.session.focusSecs = st.focusSecs;
+  st.session.aborted = aborted;
+  ding();
+  showComplete(aborted);
+  goStage(5);
+}
+
+$('btn-finish-early').addEventListener('click', () => completeFocus(false));
+$('btn-pause-focus').addEventListener('click', e => {
+  st.focusPaused = !st.focusPaused;
+  e.target.textContent = st.focusPaused ? 'Resume' : 'Pause';
+});
+$('btn-abort-focus').addEventListener('click', () => completeFocus(true));
+
+// ═══════════════════════════════════════════════
+// STAGE 5 — COMPLETE
+// ═══════════════════════════════════════════════
+function showComplete(aborted) {
+  if (aborted) {
+    $('comp-badge').textContent = 'Block ended early';
+    $('comp-title').textContent = 'You still showed up.';
+    $('comp-sub').textContent = 'That counts. Every return is a rep.';
+    $('complete-glow').textContent = '◦';
+  } else {
+    $('comp-badge').textContent = 'Block complete ✦';
+    $('comp-title').textContent = 'Well done.';
+    $('comp-sub').textContent = `${Math.round(st.focusSecs/60)} minutes of focus on "${st.task}".`;
+    $('complete-glow').textContent = '✦';
+  }
+  const cs = $('comp-stats');
+  cs.innerHTML = '';
+  const tag = (label, val, ok) => {
+    const d = document.createElement('div');
+    d.style.cssText = `background:color-mix(in srgb,${ok?'var(--accent2)':'var(--warm)'} 10%,transparent);border:1px solid color-mix(in srgb,${ok?'var(--accent2)':'var(--warm)'} 25%,var(--line));border-radius:99px;padding:5px 13px;font-size:0.72rem;color:${ok?'var(--accent2)':'var(--warm)'};`;
+    d.textContent = `${label}: ${val}`;
+    cs.appendChild(d);
+  };
+  tag('Duration', Math.round(st.focusSecs/60)+'m', !aborted);
+  tag('Latency',  (st.session.activationLatencySec||0)+'s', true);
+  tag('Value',    st.session.value||'—', true);
+
+  $('sl-effort').value = 3; $('lbl-effort').textContent = 3;
+  $('sl-mood').value   = 3; $('lbl-mood').textContent   = 3;
+  $('chk-stuck').checked = false;
+}
+
+$('sl-effort').addEventListener('input', e => $('lbl-effort').textContent = e.target.value);
+$('sl-mood').addEventListener('input',   e => $('lbl-mood').textContent   = e.target.value);
+
+$('btn-save-session').addEventListener('click', () => {
+  st.session.effort = +$('sl-effort').value;
+  st.session.mood   = +$('sl-mood').value;
+  st.session.stuck  = $('chk-stuck').checked;
+  sessions.unshift({ ...st.session });
+  save();
+  renderHistory();
+  goStage(6);
+});
+
+$('btn-another-block').addEventListener('click', () => {
+  resetForNew();
+  goTinyStart();
+});
+
+function resetForNew() {
+  st.focusSecs=0; st.focusRunning=false; st.focusPaused=false;
+  clearInterval(st.focusTimer);
+  st.planStartTs=null; st.ignStartTs=null;
+  st.session={};
+}
+
+// ═══════════════════════════════════════════════
+// HISTORY
+// ═══════════════════════════════════════════════
+function renderHistory() {
+  const list = $('hist-list'); list.innerHTML = '';
+  const weekMs = 7*864e5;
+  let focus7=0, latSum=0, latN=0;
+  sessions.forEach(s => {
+    if (new Date(s.when).getTime() >= Date.now()-weekMs) focus7 += (s.focusSecs||0);
+    if (typeof s.activationLatencySec==='number') { latSum+=s.activationLatencySec; latN++; }
+  });
+  $('st-sessions').textContent = sessions.length;
+  $('st-focus').textContent    = Math.round(focus7/60)+'m';
+  $('st-latency').textContent  = latN ? Math.round(latSum/latN)+'s' : '—';
+
+  if (!sessions.length) {
+    const d = document.createElement('div');
+    d.style.cssText='color:var(--muted);font-size:0.85rem;padding:12px 0;';
+    d.textContent='No sessions yet. Complete your first block to see it here.';
+    list.appendChild(d); return;
+  }
+  sessions.slice(0,12).forEach(s => {
+    const d = new Date(s.when||Date.now());
+    const div = document.createElement('div'); div.className='hitem';
+    const mins = Math.round((s.focusSecs||0)/60);
+    const tag = s.aborted
+      ? '<span class="hi-tag ab">aborted</span>'
+      : '<span class="hi-tag ok">done</span>';
+    div.innerHTML = `<div class="hi-task">${s.task||'Untitled'}${tag}</div>
+      <div class="hi-meta">${d.toLocaleDateString()} · ${d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})} · ${s.value||'—'} · ${mins}m · latency ${s.activationLatencySec||0}s</div>`;
+    list.appendChild(div);
+  });
+}
+
+$('btn-hist').addEventListener('click', () => { renderHistory(); goStage(6); });
+$('btn-new').addEventListener('click', () => { resetForNew(); goStage(1); });
+$('btn-new2').addEventListener('click', () => { resetForNew(); goStage(1); });
+
+$('btn-export').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify({sessions, theme}, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `switchcraft_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+});
+$('btn-clear').addEventListener('click', () => {
+  if (!confirm('Delete all session data?')) return;
+  sessions = []; save(); renderHistory();
+  toast('Data cleared');
+});
+
+// ═══════════════════════════════════════════════
+// AUDIO
+// ═══════════════════════════════════════════════
+let AC = null;
+function ensureAudio() { if (!AC) try { AC = new (window.AudioContext||window.webkitAudioContext)(); } catch {} }
+
+function ding() {
+  try {
+    ensureAudio(); if (!AC) return;
+    if (AC.state === 'suspended') AC.resume();
+    const freqs = [523.25, 659.25];
+    const now = AC.currentTime;
+    freqs.forEach((f, i) => {
+      const o = AC.createOscillator(), g = AC.createGain();
+      o.type = 'sine'; o.frequency.value = f;
+      const t = now + i*0.09;
+      g.gain.setValueAtTime(0.001, t);
+      g.gain.linearRampToValueAtTime(0.035, t+0.04);
+      g.gain.exponentialRampToValueAtTime(0.001, t+0.48);
+      o.connect(g); g.connect(AC.destination);
+      o.start(t); o.stop(t+0.5);
+    });
+  } catch {}
+}
+
+// ═══════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════
+function fmtTime(s) {
+  const m = Math.floor(s/60), sec = s%60;
+  return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+}
+
+function toast(msg) {
+  const t = document.createElement('div'); t.className='tst'; t.textContent=msg;
+  document.body.appendChild(t); setTimeout(() => t.remove(), 1600);
+}
+
+function save() { try { localStorage.setItem(SK, JSON.stringify({sessions,theme})); } catch {} }
+function load() {
+  try {
+    const raw = localStorage.getItem(SK); if (!raw) return;
+    const o = JSON.parse(raw);
+    if (Array.isArray(o.sessions)) sessions = o.sessions;
+    if (o.theme) applyTheme(o.theme);
+  } catch {}
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+load();
+applyTheme(localStorage.getItem('sc_theme') || 'paper');
+window.addEventListener('click', ensureAudio, {once:true});
+
+})();
+</script>
+</body>
+</html>
